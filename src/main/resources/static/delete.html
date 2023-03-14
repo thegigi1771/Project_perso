@@ -1,0 +1,27 @@
+<script>
+    function deleteStudent() {
+        var xhr = new XMLHttpRequest();
+        var val = document.getElementById('fieldForm').value;
+        xhr.open("DELETE", "http://localhost:8080/deleteStudent/"+val, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send();
+    }
+</script>
+
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>delete</title>
+    </head>
+
+    <body>
+        <h1 align="center">DELETE</h1>
+
+        <Center>
+            <h2 align="center">ID : <input id ="fieldForm" type="text" name="fieldForm"> <button onclick="deleteStudent()">Delete</button></h2>
+        </Center>
+
+    </body>
+</html>
+

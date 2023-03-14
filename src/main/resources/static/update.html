@@ -1,0 +1,62 @@
+<script>
+    function researchStudent() {
+        var xhr = new XMLHttpRequest();
+        var val = document.getElementById('id').value;
+        xhr.open("GET", "http://localhost:8080/student/"+val, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+              var data = JSON.parse(xhr.responseText);
+              document.getElementById('studentName').value= data["studentName"];
+              document.getElementById('course').value= data["course"];
+              document.getElementById('fee').value= data["fee"];
+            };
+        }
+        xhr.send();
+    }
+
+
+    function updateStudent() {
+        var xhr = new XMLHttpRequest();
+        var val = document.getElementById('id').value; // recupere ce qu'il ya dans le fichier HTML
+        xhr.open("PUT", "http://localhost:8080/updateStudent", true); // GET, DELETE, PUT, POST --> envoie une requete http  a ce site
+        xhr.setRequestHeader("Content-Type", "application/json"); // recherche perso
+        let textAreas = [document.getElementById('id'), // recupere elements qu'on met dans array a 4 elments
+                        document.getElementById('studentName'),
+                        document.getElementById('course'),
+                        document.getElementById('fee')];
+        let data = {};
+        textAreas.forEach(function(textArea) {
+          data[textArea.id] = textArea.value;
+        });
+        var json = JSON.stringify(data);
+        xhr.send(json);
+    }
+</script>
+
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>update</title>
+    </head>
+
+    <body>
+    <h1 align="center">UPDATE</h1>
+
+    <Center>
+        <h2 align="center">ID : <input id="id" type="text" name="fieldForm"> <button onclick="researchStudent()">Research</button></h2>
+
+
+        <h2 align="center">Student Name : <input id="studentName" type="text" name="fieldForm"></h2>
+
+        <h2 align="center">Course : <input id="course" type="text" name="fieldForm"> </h2>
+
+        <h2 align="center">Fee : <input id="fee" type="text" name="fieldForm"> </h2>
+
+        <button onclick="updateStudent()">Update</button>
+    </Center>
+
+    </body>
+</html>
+

@@ -1,0 +1,81 @@
+<script>
+    function jsonToTable(data) {
+                table = document.createElement("table");
+                var thead = document.createElement("thead");
+                var tbody = document.createElement("tbody");
+                if(!(data instanceof Array)){
+                  data = Array.of(data);
+                }
+                var headers = Object.keys(data[0]);
+                // Create the header row
+                var headerRow = document.createElement("tr");
+                headers.forEach(function(header) {
+                  var headerCell = document.createElement("th");
+                  headerCell.innerHTML = header;
+                  headerRow.appendChild(headerCell);
+                });
+                thead.appendChild(headerRow);
+                // Create the body rows
+                data.forEach(function(rowData) {
+                  var row = document.createElement("tr");
+                  headers.forEach(function(header) {
+                    var cell = document.createElement("td");
+                    cell.innerHTML = rowData[header];
+                    row.appendChild(cell);
+                  });
+                  tbody.appendChild(row);
+                });
+                // Add the header and body to the table and add the table to the document
+                table.appendChild(thead);
+                table.appendChild(tbody);
+                document.getElementById("data-text").innerHTML=table.innerHTML;
+    }
+
+    function searchStudentsByID() {
+        var xhr = new XMLHttpRequest();
+        var val = document.getElementById('fieldForm').value;
+        xhr.open("GET", "http://localhost:8080/student/"+val, true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+              var data = JSON.parse(xhr.responseText);
+              jsonToTable(data);
+            };
+        }
+        xhr.send();
+    }
+
+    function searchAllStudents() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "http://localhost:8080/students", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+                console.log(xhr.responseText);
+                var data = JSON.parse(xhr.responseText);
+                jsonToTable(data);
+            };
+        }
+        xhr.send();
+    }
+</script>
+
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>read</title>
+    </head>
+
+    <body>
+        <h1 align="center">READ</h1>
+
+        <Center>
+            <button onclick="searchAllStudents()">Read All Students</button>
+            <h2 align="center">ID : <input id = "fieldForm" type="text" name="fieldForm"> <button onclick="searchStudentsByID()">Search By ID</button> </h2>
+            <table class="center" id="data-text"></table>
+        </Center>
+
+    </body>
+</html>
+

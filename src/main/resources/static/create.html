@@ -1,0 +1,45 @@
+<script>
+    function insertStudent() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/addStudent", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+        let textAreas = [document.getElementById('studentName'),
+                        document.getElementById('course'),
+                        document.getElementById('fee')];
+        let data = {};
+        textAreas.forEach(function(textArea) {
+          data[textArea.id] = textArea.value;
+        });
+        var json = JSON.stringify(data);
+        xhr.send(json);
+    }
+</script>
+
+<!DOCTYPE>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>create</title>
+    </head>
+
+    <body>
+        <h1 align="center">CREATE</h1>
+
+        <Center>            
+            <form>
+            Student Name : <input id="studentName" type="text" name="fieldForm">
+            </form>
+            
+            <form>
+            Course : <input id="course" type="text" name="fieldForm">
+            </form>
+            
+            <form>
+            Fee : <input id="fee" type="text" name="fieldForm">
+            </form>
+            
+            <button onclick="insertStudent()">Create</button>
+        </Center>
+    </body>
+</html>
+
